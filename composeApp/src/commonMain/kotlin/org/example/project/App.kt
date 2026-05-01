@@ -20,6 +20,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.resources.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import kotlinx.coroutines.launch
 import kotlinproject.composeapp.generated.resources.*
 
 data class ShoppingItem(
@@ -92,6 +93,30 @@ fun App() {
 
 @Composable
 fun AboutScreen() {
+    val scope = rememberCoroutineScope()
+    var catFact by remember { mutableStateOf<String?>(null) }
+    var isLoading by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    fun loadFact() {
+        scope.launch {
+            isLoading = true
+            errorMessage = null
+            try {
+                val result = fetchCatFact()
+                catFact = result.fact
+            } catch (e: Exception) {
+                errorMessage = "Ошибка сети: ${e.message}"
+            } finally {
+                isLoading = false
+            }
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        loadFact()
+    }
+
     Column(
         modifier = Modifier.fillMaxSize().padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -107,5 +132,40 @@ fun AboutScreen() {
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center
         )
+        
+        Spacer(modifier = Modifier.height(32.dp))
+        
+        Card(
+            modifier = Modifier.fillMaxWidth().padding(8.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.secondaryContainer
+            )
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Интересный факт:",
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                
+                if (isLoading) {
+                    CircularProgressIndicator()
+                } else if (errorMessage != null) {
+                    Text(text = errorMessage!!, color = MaterialTheme.colorScheme.error)
+                } else {
+                    Text(text = catFact ?: "Загрузка...", textAlign = TextAlign.Center)
+                }
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                Button(onClick = { loadFact() }, enabled = !isLoading) {
+                    Text("Обновить факт")
+                }
+            }
+        }
     }
 }
