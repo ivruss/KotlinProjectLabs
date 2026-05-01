@@ -1,12 +1,3 @@
 <resources>
-    <string name="app_name">KotlinProject</string>
-    <string name="milk">Молоко</string>
-    <string name="flour">Мука</string>
-    <string name="bread">Хлеб</string>
-    <string name="eggs">Яйца</string>
-    <string name="apples">Яблоки</string>
-    <string name="product_name_label">Название продукта</string>
-    <string name="add_button_text">+</string>
-    <string name="delete_button_text">🗑</string>
-    <string name="quantity_format">x%d</string>
+    <string name="app_name">Список покупок</string>
 </resources>
