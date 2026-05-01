@@ -6,7 +6,8 @@ import androidx.compose.ui.tooling.preview.Preview
 
 data class ShoppingItem(
     val name: String,
-    val quantity: Int
+    val quantity: Int,
+    val isChecked: Boolean = false
 )
 
 val shoppingList = listOf(
