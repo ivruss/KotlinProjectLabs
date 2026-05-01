@@ -15,4 +15,9 @@
     <string name="cancel_button">Отмена</string>
     <string name="item_added_message">Добавлено: %s</string>
     <string name="item_deleted_message">Удалено: %s</string>
+    <string name="nav_home">Список 1</string>
+    <string name="nav_work">Список 2</string>
+    <string name="nav_about">О программе</string>
+    <string name="about_title">О программе</string>
+    <string name="about_text">Это учебное приложение «Список покупок».\nСоздано в рамках курса лабораторных работ по мобильной разработке студентом ВГУ Русановым И.Н.</string>
 </resources>
