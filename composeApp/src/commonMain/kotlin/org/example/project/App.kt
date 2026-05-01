@@ -38,7 +38,10 @@ sealed class Screen(val route: String, val resourceId: org.jetbrains.compose.res
 @Composable
 @Preview
 fun App() {
-    AppTheme {
+    val appSettings = remember { AppSettings.getInstance() }
+    var isDark by remember { mutableStateOf(appSettings.isDarkMode) }
+
+    AppTheme(darkTheme = isDark) {
         val navController = rememberNavController()
         val items = listOf(Screen.Home, Screen.Work, Screen.About)
 
@@ -83,7 +86,13 @@ fun App() {
                         )
                     }
                     composable(Screen.About.route) {
-                        AboutScreen()
+                        AboutScreen(
+                            isDark = isDark,
+                            onDarkThemeChange = {
+                                isDark = it
+                                appSettings.isDarkMode = it
+                            }
+                        )
                     }
                 }
             }
@@ -92,7 +101,10 @@ fun App() {
 }
 
 @Composable
-fun AboutScreen() {
+fun AboutScreen(
+    isDark: Boolean,
+    onDarkThemeChange: (Boolean) -> Unit
+) {
     val scope = rememberCoroutineScope()
     var catFact by remember { mutableStateOf<String?>(null) }
     var isLoading by remember { mutableStateOf(false) }
@@ -133,7 +145,20 @@ fun AboutScreen() {
             textAlign = TextAlign.Center
         )
         
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(stringResource(Res.string.dark_theme_label))
+            Spacer(modifier = Modifier.width(8.dp))
+            Switch(
+                checked = isDark,
+                onCheckedChange = onDarkThemeChange
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
         
         Card(
             modifier = Modifier.fillMaxWidth().padding(8.dp),
