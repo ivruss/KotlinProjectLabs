@@ -2,6 +2,8 @@ package org.example.project
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.resources.stringResource
+import kotlinproject.composeapp.generated.resources.*
 
 
 data class ShoppingItem(
@@ -10,15 +12,14 @@ data class ShoppingItem(
     val isChecked: Boolean = false
 )
 
-val shoppingList = listOf(
-    ShoppingItem("Молоко", 2),
-    ShoppingItem("Хлеб", 1),
-    ShoppingItem("Яйца", 10),
-    ShoppingItem("Яблоки", 5)
-)
-
 @Composable
 @Preview
 fun App() {
-    ShoppingListScreen()
+    val shoppingList = listOf(
+        ShoppingItem(stringResource(Res.string.milk), 2),
+        ShoppingItem(stringResource(Res.string.bread), 1),
+        ShoppingItem(stringResource(Res.string.eggs), 10),
+        ShoppingItem(stringResource(Res.string.apples), 5)
+    )
+    ShoppingListScreen(shoppingList)
 }

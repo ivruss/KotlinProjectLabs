@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.Arrangement
 
 import androidx.compose.runtime.Composable
+import org.jetbrains.compose.resources.stringResource
+import kotlinproject.composeapp.generated.resources.Res
+import kotlinproject.composeapp.generated.resources.quantity_format
 
 
 
@@ -22,6 +25,6 @@ fun ShoppingItemView(item: ShoppingItem) {
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(text = item.name)
-        Text(text = "x${item.quantity}")
+        Text(text = stringResource(Res.string.quantity_format, item.quantity))
     }
 }

@@ -11,15 +11,20 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import org.jetbrains.compose.resources.stringResource
+import kotlinproject.composeapp.generated.resources.*
 
 @Composable
-fun ShoppingListScreen() {
+fun ShoppingListScreen(initialItems: List<ShoppingItem>? = null) {
+    val milkString = stringResource(Res.string.milk)
+    val flourString = stringResource(Res.string.flour)
+
     var text by remember { mutableStateOf("") }
     var items by remember {
         mutableStateOf(
-            listOf(
-                ShoppingItem("Молоко", 1),
-                ShoppingItem("Мука", 1)
+            initialItems ?: listOf(
+                ShoppingItem(milkString, 1),
+                ShoppingItem(flourString, 1)
             )
         )
     }
@@ -34,7 +39,7 @@ fun ShoppingListScreen() {
                 value = text,
                 onValueChange = { text = it },
                 modifier = Modifier.weight(1f),
-                label = { Text("Название продукта") }
+                label = { Text(stringResource(Res.string.product_name_label)) }
             )
 
             Button(
@@ -45,7 +50,7 @@ fun ShoppingListScreen() {
                     }
                 }
             ) {
-                Text("+")
+                Text(stringResource(Res.string.add_button_text))
             }
         }
 
@@ -81,7 +86,7 @@ fun ShoppingListScreen() {
                             items = items - item
                         }
                     ) {
-                        Text("🗑")
+                        Text(stringResource(Res.string.delete_button_text))
                     }
                 }
             }
