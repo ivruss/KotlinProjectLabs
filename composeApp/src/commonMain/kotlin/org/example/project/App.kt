@@ -19,7 +19,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import org.jetbrains.compose.resources.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
 import kotlinproject.composeapp.generated.resources.*
 
@@ -36,10 +35,35 @@ sealed class Screen(val route: String, val resourceId: org.jetbrains.compose.res
 }
 
 @Composable
-@Preview
 fun App() {
     val appSettings = remember { AppSettings.getInstance() }
     var isDark by remember { mutableStateOf(appSettings.isDarkMode) }
+
+    val milkString = stringResource(Res.string.milk)
+    val flourString = stringResource(Res.string.flour)
+    val applesString = stringResource(Res.string.apples)
+    val eggsString = stringResource(Res.string.eggs)
+    val breadString = stringResource(Res.string.bread)
+
+    var homeItems by remember {
+        mutableStateOf(
+            listOf(
+                ShoppingItem(milkString, 2),
+                ShoppingItem(breadString, 1),
+                ShoppingItem(eggsString, 10),
+                ShoppingItem(applesString, 5)
+            )
+        )
+    }
+
+    var workItems by remember {
+        mutableStateOf(
+            listOf(
+                ShoppingItem(flourString, 5),
+                ShoppingItem(eggsString, 30)
+            )
+        )
+    }
 
     AppTheme(darkTheme = isDark) {
         val navController = rememberNavController()
@@ -75,14 +99,15 @@ fun App() {
             ) {
                 NavHost(navController, startDestination = Screen.Home.route) {
                     composable(Screen.Home.route) {
-                        ShoppingListScreen()
+                        ShoppingListScreen(
+                            items = homeItems,
+                            onItemsChange = { homeItems = it }
+                        )
                     }
                     composable(Screen.Work.route) {
                         ShoppingListScreen(
-                            initialItems = listOf(
-                                ShoppingItem(stringResource(Res.string.apples), 5),
-                                ShoppingItem(stringResource(Res.string.eggs), 10)
-                            )
+                            items = workItems,
+                            onItemsChange = { workItems = it }
                         )
                     }
                     composable(Screen.About.route) {

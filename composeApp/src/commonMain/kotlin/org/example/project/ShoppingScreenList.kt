@@ -15,23 +15,14 @@ import kotlinproject.composeapp.generated.resources.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ShoppingListScreen(initialItems: List<ShoppingItem>? = null) {
+fun ShoppingListScreen(
+    items: List<ShoppingItem>,
+    onItemsChange: (List<ShoppingItem>) -> Unit
+) {
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-    
-    val milkString = stringResource(Res.string.milk)
-    val flourString = stringResource(Res.string.flour)
 
     var text by remember { mutableStateOf("") }
-    var items by remember {
-        mutableStateOf(
-            initialItems ?: listOf(
-                ShoppingItem(milkString, 1),
-                ShoppingItem(flourString, 1)
-            )
-        )
-    }
-
     var itemToDelete by remember { mutableStateOf<ShoppingItem?>(null) }
 
     Scaffold(
@@ -62,7 +53,7 @@ fun ShoppingListScreen(initialItems: List<ShoppingItem>? = null) {
                             onAdd = {
                                 if (text.isNotBlank()) {
                                     val addedName = text
-                                    items = items + ShoppingItem(addedName, 1)
+                                    onItemsChange(items + ShoppingItem(addedName, 1))
                                     text = ""
                                     scope.launch {
                                         val message = getString(Res.string.item_added_message, addedName)
@@ -77,10 +68,10 @@ fun ShoppingListScreen(initialItems: List<ShoppingItem>? = null) {
                         ShoppingList(
                             items = items,
                             onCheckedChange = { item, checked ->
-                                items = items.map {
+                                onItemsChange(items.map {
                                     if (it == item) it.copy(isChecked = checked)
                                     else it
-                                }
+                                })
                             },
                             onDeleteRequest = { itemToDelete = it }
                         )
@@ -94,7 +85,7 @@ fun ShoppingListScreen(initialItems: List<ShoppingItem>? = null) {
                         onAdd = {
                             if (text.isNotBlank()) {
                                 val addedName = text
-                                items = items + ShoppingItem(addedName, 1)
+                                onItemsChange(items + ShoppingItem(addedName, 1))
                                 text = ""
                                 scope.launch {
                                     val message = getString(Res.string.item_added_message, addedName)
@@ -107,10 +98,10 @@ fun ShoppingListScreen(initialItems: List<ShoppingItem>? = null) {
                     ShoppingList(
                         items = items,
                         onCheckedChange = { item, checked ->
-                            items = items.map {
+                            onItemsChange(items.map {
                                 if (it == item) it.copy(isChecked = checked)
                                 else it
-                            }
+                            })
                         },
                         onDeleteRequest = { itemToDelete = it }
                     )
@@ -128,7 +119,7 @@ fun ShoppingListScreen(initialItems: List<ShoppingItem>? = null) {
                 TextButton(
                     onClick = {
                         val deletedName = item.name
-                        items = items - item
+                        onItemsChange(items - item)
                         itemToDelete = null
                         scope.launch {
                             val message = getString(Res.string.item_deleted_message, deletedName)

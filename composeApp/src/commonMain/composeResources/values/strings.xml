@@ -7,7 +7,7 @@
     <string name="apples">Яблоки</string>
     <string name="product_name_label">Название продукта</string>
     <string name="add_button_text">+</string>
-    <string name="delete_button_text">Удалить</string>
+    <string name="delete_button_text">🗑</string>
     <string name="quantity_format">x%d</string>
     <string name="delete_confirmation_title">Удаление</string>
     <string name="delete_confirmation_text">Вы уверены, что хотите удалить «%s»?</string>
