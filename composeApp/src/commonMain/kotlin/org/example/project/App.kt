@@ -118,7 +118,7 @@ fun AboutScreen(
                 val result = fetchCatFact()
                 catFact = result.fact
             } catch (e: Exception) {
-                errorMessage = "Ошибка сети: ${e.message}"
+                errorMessage = e.message ?: "Unknown error"
             } finally {
                 isLoading = false
             }
@@ -160,6 +160,10 @@ fun AboutScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
         
+        PermissionRequestSection()
+
+        Spacer(modifier = Modifier.height(16.dp))
+        
         Card(
             modifier = Modifier.fillMaxWidth().padding(8.dp),
             colors = CardDefaults.cardColors(
@@ -171,7 +175,7 @@ fun AboutScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Интересный факт:",
+                    text = stringResource(Res.string.cat_fact_title),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -180,15 +184,21 @@ fun AboutScreen(
                 if (isLoading) {
                     CircularProgressIndicator()
                 } else if (errorMessage != null) {
-                    Text(text = errorMessage!!, color = MaterialTheme.colorScheme.error)
+                    Text(
+                        text = stringResource(Res.string.network_error, errorMessage!!),
+                        color = MaterialTheme.colorScheme.error
+                    )
                 } else {
-                    Text(text = catFact ?: "Загрузка...", textAlign = TextAlign.Center)
+                    Text(
+                        text = catFact ?: stringResource(Res.string.loading),
+                        textAlign = TextAlign.Center
+                    )
                 }
                 
                 Spacer(modifier = Modifier.height(16.dp))
                 
                 Button(onClick = { loadFact() }, enabled = !isLoading) {
-                    Text("Обновить факт")
+                    Text(stringResource(Res.string.update_fact))
                 }
             }
         }

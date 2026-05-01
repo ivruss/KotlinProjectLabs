@@ -7,7 +7,7 @@
     <string name="apples">Яблоки</string>
     <string name="product_name_label">Название продукта</string>
     <string name="add_button_text">+</string>
-    <string name="delete_button_text">🗑</string>
+    <string name="delete_button_text">Удалить</string>
     <string name="quantity_format">x%d</string>
     <string name="delete_confirmation_title">Удаление</string>
     <string name="delete_confirmation_text">Вы уверены, что хотите удалить «%s»?</string>
@@ -21,4 +21,13 @@
     <string name="about_title">О программе</string>
     <string name="about_text">Это учебное приложение «Список покупок».\nСоздано в рамках курса лабораторных работ по мобильной разработке студентом ВГУ Русановым И.Н.</string>
     <string name="dark_theme_label">Тёмная тема</string>
+    <string name="cat_fact_title">Интересный факт</string>
+    <string name="loading">Загрузка...</string>
+    <string name="update_fact">Обновить факт</string>
+    <string name="network_error">Ошибка сети: %s</string>
+    <string name="permissions_title">Запрос разрешений</string>
+    <string name="permission_granted">Разрешение на уведомления получено</string>
+    <string name="permission_denied">Разрешение не получено</string>
+    <string name="request_permission">Запросить разрешение</string>
+    <string name="jvm_permission_not_supported">На этой платформе (JVM) запросы разрешений не поддерживаются.</string>
 </resources>
